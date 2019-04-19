@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Simple local storage preferences mechanism for web apps",
   "main": "dist/index.umd.js",
-  "dist": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
   "scripts": {
     "eslint": "eslint .",
     "rollup": "rollup -c",
