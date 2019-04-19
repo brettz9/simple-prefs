@@ -30,9 +30,13 @@
   "engines": {
     "node": ">= 0.1.14"
   },
+  "peerDependencies": {
+    "@babel/polyfill": "^7.4.3"
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@mysticatea/eslint-plugin": "^9.0.1",
     "eslint": "^5.16.0",
