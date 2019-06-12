@@ -5,7 +5,7 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "scripts": {
-    "eslint": "eslint .",
+    "eslint": "eslint --ext=js,md .",
     "rollup": "rollup -c",
     "test": "npm run eslint && npm run rollup && echo \"Error: no test specified\" && exit 1"
   },
@@ -36,24 +36,25 @@
     "regenerator-runtime": "^0.13.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@mysticatea/eslint-plugin": "^9.0.1",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@mysticatea/eslint-plugin": "^10.0.3",
     "eslint": "^5.16.0",
-    "eslint-config-ash-nazg": "^2.0.0",
+    "eslint-config-ash-nazg": "^7.0.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-compat": "^3.1.1",
     "eslint-plugin-eslint-comments": "^3.1.1",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsdoc": "^4.8.3",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsdoc": "^8.0.1",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-no-use-extend-native": "^0.4.0",
-    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-unicorn": "^8.0.2",
-    "rollup": "^1.10.1",
+    "eslint-plugin-unicorn": "^9.1.0",
+    "rollup": "^1.15.1",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-terser": "^4.0.4"
+    "rollup-plugin-terser": "^5.0.0",
+    "typescript": "^3.5.1"
   }
 }
