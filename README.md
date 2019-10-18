@@ -44,3 +44,20 @@ await prefs.setPref('someBoolean', false); // `false` (resolves to old setting)
 
 })();
 ```
+
+For a slightly easier approach, you can use the `bind` method:
+
+```js
+const {
+  getPref, setPref
+} = new SimplePrefs({namespace: 'myApp-', defaults}).bind();
+
+(async () => {
+
+const currentBooleanPrefValue = await getPref('someBoolean'); // `true`
+
+// Later
+await setPref('someBoolean', false); // `false` (resolves to old setting)
+
+})();
+```

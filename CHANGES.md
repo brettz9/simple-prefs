@@ -1,5 +1,10 @@
 # simple-prefs CHANGES
 
+## 0.4.0
+
+- Enhancement: Add convenience `bind` method
+- Maintenance: Add `.editorconfig`
+
 ## 0.3.0
 
 - Linting (ESLint): Add linting of Markdown and HTML JS

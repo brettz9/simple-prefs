@@ -58,6 +58,24 @@ export class SimplePrefs {
   async setPref (key, val) { // eslint-disable-line require-await
     return localStorage.setItem(this.namespace + key, JSON.stringify(val));
   }
+
+  /**
+  * @typedef {PlainObject} GetPrefSetPref
+  * @property {module:SimplePrefs.SimplePrefs#getPref} getPref
+  * @property {module:SimplePrefs.SimplePrefs#setPref} setPref
+  */
+
+  /**
+   * Convenience utility to return two main methods `getPref` and
+   *   `setPref` bound to the current object.
+   * @returns {GetPrefSetPref}
+   */
+  bind () {
+    return {
+      getPref: this.getPref.bind(this),
+      setPref: this.setPref.bind(this)
+    };
+  }
 }
 
 export class SimplePrefsDefaults {
