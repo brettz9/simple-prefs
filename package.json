@@ -1,6 +1,6 @@
 {
   "name": "simple-prefs",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Simple local storage preferences mechanism for web apps",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -30,10 +30,7 @@
   "engines": {
     "node": ">= 0.1.14"
   },
-  "peerDependencies": {},
   "dependencies": {
-    "core-js-bundle": "^3.3.2",
-    "regenerator-runtime": "^0.13.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

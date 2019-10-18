@@ -1,5 +1,10 @@
 # simple-prefs CHANGES
 
+## 0.5.0
+
+- Breaking: Avoid specifying `regenerator-runtime` and `core-js-bundle`
+  as dependencies (they will be needed by applications, however)
+
 ## 0.4.0
 
 - Enhancement: Add convenience `bind` method

@@ -7,24 +7,29 @@ deserialization is automated, along with a means to supply defaults.
 ## Installation
 
 ```shell
-npm install --save simple-prefs
+npm install --save simple-prefs regenerator-runtime
 ```
+
+For older browser support, you may also need `core-js-bundle`.
 
 ### Browser
 
 ```html
+<script type="./node_modules/regenerator-runtime/runtime.js"></script>
 <script type="./node_modules/simple-prefs/dist/index.umd.js"></script>
 ```
 
 ### Browser (ESM)
 
 ```js
+import './node_modules/regenerator-runtime/runtime.js';
 import {SimplePrefs} from './node_modules/simple-prefs/dist/index.esm.js';
 ```
 
 ### Browser (Bundle)
 
 ```js
+import 'regenerator-runtime';
 import {SimplePrefs} from 'simple-prefs';
 ```
 
