@@ -61,7 +61,7 @@ function _createClass(Constructor, protoProps, staticProps) {
  */
 
 /**
-* @typedef {PlainObject<string: module:SimplePrefs.Value>}
+* @typedef {PlainObject<{string: module:SimplePrefs.Value}>}
 *   module:SimplePrefs.Defaults
 */
 

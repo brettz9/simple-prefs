@@ -1,9 +1,10 @@
 # simple-prefs CHANGES
 
-## ?
+## 0.3.0
 
-- Linting: Add linting of Markdown JS
-- npm: Update devDeps
+- Linting (ESLint): Add linting of Markdown and HTML JS
+- Linting (ESLint): Per latest ash-nazg, fix jsdoc
+- npm: Update deps and devDeps
 
 ## 0.2.0
 

@@ -67,7 +67,7 @@
    */
 
   /**
-  * @typedef {PlainObject<string: module:SimplePrefs.Value>}
+  * @typedef {PlainObject<{string: module:SimplePrefs.Value}>}
   *   module:SimplePrefs.Defaults
   */
 
