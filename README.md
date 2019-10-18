@@ -6,6 +6,10 @@ deserialization is automated, along with a means to supply defaults.
 
 ## Installation
 
+```shell
+npm install --save simple-prefs
+```
+
 ### Browser
 
 ```html
