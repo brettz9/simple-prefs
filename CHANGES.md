@@ -1,5 +1,9 @@
 # simple-prefs CHANGES
 
+## ?
+
+- npm: Update devDeps
+
 ## 0.5.0
 
 - Breaking: Avoid specifying `regenerator-runtime` and `core-js-bundle`
