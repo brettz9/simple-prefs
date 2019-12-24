@@ -32,6 +32,7 @@ module.exports = {
       'padded-blocks': ['off'],
       'import/unambiguous': ['off'],
       'import/no-unresolved': ['off'],
+      'import/no-extraneous-dependencies': ['off'],
       'node/no-missing-import': ['off']
     }
   }],

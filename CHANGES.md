@@ -2,6 +2,7 @@
 
 ## ?
 
+- Linting (ESLint): Update per latest ash-nazg
 - npm: Update devDeps
 
 ## 0.5.0
