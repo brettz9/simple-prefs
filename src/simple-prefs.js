@@ -11,6 +11,9 @@
 * @typedef {boolean|number|string} module:SimplePrefs.Value
 */
 
+/**
+ * Preferences storage.
+ */
 export class SimplePrefs {
   /**
    * @param {PlainObject} cfg
@@ -78,6 +81,9 @@ export class SimplePrefs {
   }
 }
 
+/**
+ * Defaults for SimplePrefs.
+ */
 export class SimplePrefsDefaults {
   /**
    *

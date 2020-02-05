@@ -74,6 +74,10 @@
   /**
   * @typedef {boolean|number|string} module:SimplePrefs.Value
   */
+
+  /**
+   * Preferences storage.
+   */
   var SimplePrefs =
   /*#__PURE__*/
   function () {
@@ -206,6 +210,10 @@
 
     return SimplePrefs;
   }();
+  /**
+   * Defaults for SimplePrefs.
+   */
+
   var SimplePrefsDefaults =
   /*#__PURE__*/
   function () {
