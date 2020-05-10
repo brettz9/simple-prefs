@@ -1,4 +1,5 @@
-import babel from 'rollup-plugin-babel';
+/* eslint-disable node/no-unsupported-features/es-syntax */
+import babel from '@rollup/plugin-babel';
 import {terser} from 'rollup-plugin-terser';
 
 /**
@@ -23,7 +24,9 @@ function getRollupObject ({minifying, format = 'umd'} = {}) {
       name: 'SimplePrefs'
     },
     plugins: [
-      babel()
+      babel({
+        babelHelpers: 'bundled'
+      })
     ]
   };
   if (minifying) {

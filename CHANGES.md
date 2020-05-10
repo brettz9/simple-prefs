@@ -1,8 +1,14 @@
 # simple-prefs CHANGES
 
-## ?
+## 0.6.0
 
+- Breaking change: Bump `engines` to 4.0.0 (needs `Object.assign`)
+- Build: Update per latest Babel/Rollup
 - Linting (ESLint): Update per latest ash-nazg
+- Linting: Check RC file
+- npm: Ignore Rollup file
+- npm: Use `rollup/plugin-babel` over deprecated `rollup-plugin-babel`
+    and make `babelHelpers` explicit
 - npm: Update devDeps
 
 ## 0.5.0
