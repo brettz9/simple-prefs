@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import babel from '@rollup/plugin-babel';
 import {terser} from 'rollup-plugin-terser';
 
@@ -11,7 +10,7 @@ import {terser} from 'rollup-plugin-terser';
 /**
  * @param {PlainObject} config
  * @param {boolean} config.minifying
- * @param {string} [config.format='umd'} = {}]
+ * @param {string} [config.format="umd"]
  * @returns {external:RollupConfig}
  */
 function getRollupObject ({minifying, format = 'umd'} = {}) {
@@ -35,7 +34,6 @@ function getRollupObject ({minifying, format = 'umd'} = {}) {
   return nonMinified;
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   getRollupObject({minifying: true, format: 'umd'}),
   getRollupObject({minifying: false, format: 'umd'}),

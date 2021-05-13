@@ -1,11 +1,10 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 /**
  * @module SimplePrefs
  */
 
 /**
-* @typedef {PlainObject<{string: module:SimplePrefs.Value}>}
-*   module:SimplePrefs.Defaults
+* @typedef {PlainObject<{
+* string: module:SimplePrefs.Value}>} module:SimplePrefs.Defaults
 */
 
 /**
@@ -45,10 +44,10 @@ export class SimplePrefs {
    * @returns {Promise<module:SimplePrefs.Value>} Resolves to the parsed
    *   value (defaulting if necessary)
    */
-  async getPref (key) { // eslint-disable-line require-await
+  async getPref (key) {
     const result = localStorage.getItem(this.namespace + key);
     return result === null
-      ? this.prefDefaults.getPrefDefault(key)
+      ? await this.prefDefaults.getPrefDefault(key)
       : JSON.parse(result);
   }
   /**
@@ -59,8 +58,10 @@ export class SimplePrefs {
    * @returns {Promise<void>} Resolves after setting the item (Not currently
    *    in use)
    */
-  async setPref (key, val) { // eslint-disable-line require-await
-    return localStorage.setItem(this.namespace + key, JSON.stringify(val));
+  async setPref (key, val) {
+    return await localStorage.setItem(
+      this.namespace + key, JSON.stringify(val)
+    );
   }
 
   /**
@@ -98,8 +99,8 @@ export class SimplePrefsDefaults {
    * @param {string} key Preference key
    * @returns {Promise<module:SimplePrefs.Value>}
    */
-  async getPrefDefault (key) { // eslint-disable-line require-await
-    return this.defaults[key];
+  async getPrefDefault (key) {
+    return await this.defaults[key];
   }
 
   /**
@@ -108,10 +109,10 @@ export class SimplePrefsDefaults {
    * @param {module:SimplePrefs.Value} value
    * @returns {Promise<module:SimplePrefs.Value>} The old value
    */
-  async setPrefDefault (key, value) { // eslint-disable-line require-await
+  async setPrefDefault (key, value) {
     const oldValue = this.defaults[key];
     this.defaults[key] = value;
-    return oldValue;
+    return await oldValue;
   }
 }
 

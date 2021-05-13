@@ -1,11 +1,9 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = {
-  extends: ['ash-nazg/sauron-node'],
+  extends: ['ash-nazg/sauron-node-overrides'],
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module'
+    ecmaVersion: 2018
   },
   env: {
     browser: true,
@@ -18,15 +16,7 @@ module.exports = {
     ]
   },
   overrides: [{
-    extends: ['plugin:node/recommended-script'],
-    files: ['docs/jsdoc-config.js', '.eslintrc.js'],
-    rules: {
-      strict: 0,
-      'import/unambiguous': 0,
-      'import/no-commonjs': 0
-    }
-  }, {
-    files: ['**/*.md'],
+    files: ['**/*.md/*.js'],
     rules: {
       'eol-last': 'off',
       'no-console': 'off',

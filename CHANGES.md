@@ -1,5 +1,21 @@
 # simple-prefs CHANGES
 
+## 0.7.0
+
+### User-impacting
+
+- Breaking change: Specify Node >= 12
+- Enhancement: Remove need for regeneratorRuntime
+
+### Dev-impacting
+
+- Linting: As per latest ash-nazg
+- Linting; Remove unneeded `.remarkrc` file
+- Build: Use JSON extension with `.babelrc`
+- npm: Add `lint` script
+- npm: Switch to pnpm
+- npm: Update devDeps.
+
 ## 0.6.0
 
 - Breaking change: Bump `engines` to 4.0.0 (needs `Object.assign`)
