@@ -1,5 +1,16 @@
 # simple-prefs CHANGES
 
+## 0.8.0
+
+### User-impacting
+
+- Enhancement: Add `listen` method to listen for namespace-specific or
+  namespace + key specific storage events
+
+### Dev-impacting
+
+- npm: Update devDeps.
+
 ## 0.7.0
 
 ### User-impacting

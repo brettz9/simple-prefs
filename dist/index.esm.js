@@ -146,6 +146,43 @@ var SimplePrefs = /*#__PURE__*/function () {
         setPref: this.setPref.bind(this)
       };
     }
+    /**
+    * @callback PreferenceCallback
+    * @returns {void}
+    */
+
+    /* eslint-disable promise/prefer-await-to-callbacks -- Repeating event */
+
+    /**
+    * @param {string} [key]
+    * @param {PreferenceCallback} cb
+    * @returns {void}
+    */
+
+  }, {
+    key: "listen",
+    value: function listen(key, cb) {
+      var _this5 = this;
+
+      if (typeof key === 'function') {
+        cb = key;
+        key = undefined;
+      }
+
+      window.addEventListener('storage', function (e) {
+        if (!e.key.startsWith(_this5.namespace)) {
+          return;
+        }
+
+        if (key !== undefined && !e.key.startsWith(_this5.namespace + key)) {
+          return;
+        }
+
+        cb(e);
+      });
+    }
+    /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */
+
   }]);
 
   return SimplePrefs;
@@ -173,9 +210,9 @@ var SimplePrefsDefaults = /*#__PURE__*/function () {
     key: "getPrefDefault",
     value: function getPrefDefault(key) {
       try {
-        var _this6 = this;
+        var _this7 = this;
 
-        return _await(_this6.defaults[key]);
+        return _await(_this7.defaults[key]);
       } catch (e) {
         return Promise.reject(e);
       }
@@ -191,10 +228,10 @@ var SimplePrefsDefaults = /*#__PURE__*/function () {
     key: "setPrefDefault",
     value: function setPrefDefault(key, value) {
       try {
-        var _this8 = this;
+        var _this9 = this;
 
-        var oldValue = _this8.defaults[key];
-        _this8.defaults[key] = value;
+        var oldValue = _this9.defaults[key];
+        _this9.defaults[key] = value;
         return _await(oldValue);
       } catch (e) {
         return Promise.reject(e);

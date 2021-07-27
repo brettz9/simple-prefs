@@ -81,6 +81,35 @@ export class SimplePrefs {
       setPref: this.setPref.bind(this)
     };
   }
+
+  /**
+  * @callback PreferenceCallback
+  * @returns {void}
+  */
+
+  /* eslint-disable promise/prefer-await-to-callbacks -- Repeating event */
+  /**
+  * @param {string} [key]
+  * @param {PreferenceCallback} cb
+  * @returns {void}
+  */
+  listen (key, cb) {
+    if (typeof key === 'function') {
+      cb = key;
+      key = undefined;
+    }
+    window.addEventListener('storage', (e) => {
+      if (!e.key.startsWith(this.namespace)) {
+        return;
+      }
+      if (key !== undefined && !e.key.startsWith(this.namespace + key)) {
+        return;
+      }
+
+      cb(e);
+    });
+  }
+  /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */
 }
 
 /**

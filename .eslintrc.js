@@ -11,6 +11,7 @@ module.exports = {
   },
   settings: {
     polyfills: [
+      'console',
       'JSON',
       'Object.assign'
     ]

@@ -35,6 +35,8 @@ import {SimplePrefs} from 'simple-prefs';
 
 ## Usage
 
+### Basic usage
+
 ```js
 // This is the simple means for specifying defaults
 const defaults = {
@@ -69,4 +71,35 @@ const currentBooleanPrefValue = await getPref('someBoolean'); // `true`
 await setPref('someBoolean', false); // `false` (resolves to old setting)
 
 })();
+```
+
+### Listening
+
+You can also listen for [`storage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event)
+events.
+
+They can be namespace-specific:
+
+```js
+const prefs = new SimplePrefs({namespace: 'myApp-'});
+
+// Returns a StorageEvent: https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent
+//  ... but only for storage keys with namespace "myApp-"
+prefs.listen((e) => {
+  console.log(e.oldValue, e.newValue, e.key, e.storageArea, e.url);
+});
+```
+
+Or they can also be specific to a particular key:
+
+```js
+const prefs = new SimplePrefs({namespace: 'myApp-'});
+
+// Returns a StorageEvent: https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent
+//  ... but only for storage keys with namespace "myApp-"
+prefs.listen('myKey', (e) => {
+  console.log(
+    e.oldValue, e.newValue, e.key === 'myApp-myKey', e.storageArea, e.url
+  );
+});
 ```
