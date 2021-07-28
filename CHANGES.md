@@ -1,5 +1,11 @@
 # simple-prefs CHANGES
 
+## ?
+
+### Dev-impacting
+
+- npm: update devDeps.
+
 ## 0.8.0
 
 ### User-impacting
