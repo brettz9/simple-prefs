@@ -24,6 +24,7 @@ export class SimplePrefs {
    */
   constructor (cfg) {
     this.configurePrefs(cfg);
+    this.listeners = [];
   }
   /**
    * @param {PlainObject} cfg
@@ -98,15 +99,47 @@ export class SimplePrefs {
       cb = key;
       key = undefined;
     }
-    window.addEventListener('storage', (e) => {
-      if (!e.key.startsWith(this.namespace)) {
-        return;
-      }
-      if (key !== undefined && !e.key.startsWith(this.namespace + key)) {
-        return;
+
+    const listener = (e) => {
+      if (e.key === null) { // `null` for clear browser action or user `clear()`
+        if (key === undefined) { // Only trigger when no key supplied
+          return;
+        }
+      } else {
+        if (!e.key.startsWith(this.namespace)) {
+          return;
+        }
+        if (key !== undefined && !e.key.startsWith(this.namespace + key)) {
+          return;
+        }
       }
 
       cb(e);
+    };
+
+    window.addEventListener('storage', listener);
+
+    this.listeners.push(listener);
+
+    return listener;
+  }
+
+  /**
+   * @param {EventListener} listener
+   * @returns {void}
+   */
+  unlisten (listener) {
+    if (listener) {
+      for (let i = 0; i < this.listeners.length; i++) {
+        if (listener === this.listeners[i]) {
+          this.listeners.splice(i, 1);
+          window.removeEventListener('storage', listener);
+          return;
+        }
+      }
+    }
+    this.listeners.forEach((listenerItem) => {
+      window.removeEventListener('storage', listenerItem);
     });
   }
   /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */

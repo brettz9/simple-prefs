@@ -1,6 +1,12 @@
 # simple-prefs CHANGES
 
-## ?
+## 0.9.0
+
+### User-impacting
+
+- Fix: Avoid throwing and allow watching for clear storage events in `listen`
+- Enhancement: Return listener from `listen` so can be removed
+- Enhancement: Add `unlisten` to remove one or all listeners
 
 ### Dev-impacting
 

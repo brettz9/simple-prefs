@@ -64,6 +64,7 @@ var SimplePrefs = /*#__PURE__*/function () {
     _classCallCheck(this, SimplePrefs);
 
     this.configurePrefs(cfg);
+    this.listeners = [];
   }
   /**
    * @param {PlainObject} cfg
@@ -169,16 +170,50 @@ var SimplePrefs = /*#__PURE__*/function () {
         key = undefined;
       }
 
-      window.addEventListener('storage', function (e) {
-        if (!e.key.startsWith(_this5.namespace)) {
-          return;
-        }
+      var listener = function listener(e) {
+        if (e.key === null) {
+          // `null` for clear browser action or user `clear()`
+          if (key === undefined) {
+            // Only trigger when no key supplied
+            return;
+          }
+        } else {
+          if (!e.key.startsWith(_this5.namespace)) {
+            return;
+          }
 
-        if (key !== undefined && !e.key.startsWith(_this5.namespace + key)) {
-          return;
+          if (key !== undefined && !e.key.startsWith(_this5.namespace + key)) {
+            return;
+          }
         }
 
         cb(e);
+      };
+
+      window.addEventListener('storage', listener);
+      this.listeners.push(listener);
+      return listener;
+    }
+    /**
+     * @param {EventListener} listener
+     * @returns {void}
+     */
+
+  }, {
+    key: "unlisten",
+    value: function unlisten(listener) {
+      if (listener) {
+        for (var i = 0; i < this.listeners.length; i++) {
+          if (listener === this.listeners[i]) {
+            this.listeners.splice(i, 1);
+            window.removeEventListener('storage', listener);
+            return;
+          }
+        }
+      }
+
+      this.listeners.forEach(function (listenerItem) {
+        window.removeEventListener('storage', listenerItem);
       });
     }
     /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */

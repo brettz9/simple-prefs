@@ -86,20 +86,34 @@ const prefs = new SimplePrefs({namespace: 'myApp-'});
 // Returns a StorageEvent: https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent
 //  ... but only for storage keys with namespace "myApp-"
 prefs.listen((e) => {
+  // If `e.key === null` there has been a browser or app `clear` event
   console.log(e.oldValue, e.newValue, e.key, e.storageArea, e.url);
 });
 ```
 
-Or they can also be specific to a particular key:
+Or they can also be specific to a particular key (though this will not listen
+for clear events):
 
 ```js
 const prefs = new SimplePrefs({namespace: 'myApp-'});
 
 // Returns a StorageEvent: https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent
 //  ... but only for storage keys with namespace "myApp-"
-prefs.listen('myKey', (e) => {
+const listener = prefs.listen('myKey', (e) => {
   console.log(
     e.oldValue, e.newValue, e.key === 'myApp-myKey', e.storageArea, e.url
   );
 });
+```
+
+You can listen to a previously registered listener:
+
+```js
+prefs.unlisten(listener);
+```
+
+You can also unlisten to all listeners:
+
+```js
+prefs.unlisten();
 ```
