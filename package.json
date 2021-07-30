@@ -5,6 +5,7 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "scripts": {
+    "prepublishOnly": "pnpm i && pnpm rollup",
     "eslint": "eslint --ext=js,md,html .",
     "lint": "npm run eslint",
     "rollup": "rollup -c",

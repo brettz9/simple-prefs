@@ -10,6 +10,7 @@
 
 ### Dev-impacting
 
+- npm: Add `prepublishOnly` script
 - npm: update devDeps.
 
 ## 0.8.0
