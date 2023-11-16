@@ -16,7 +16,7 @@ For older browser support, you may also need `core-js-bundle`.
 
 ```html
 <script type="./node_modules/regenerator-runtime/runtime.js"></script>
-<script type="./node_modules/simple-prefs/dist/index.umd.js"></script>
+<script type="./node_modules/simple-prefs/dist/index.umd.cjs"></script>
 ```
 
 ### Browser (ESM)
@@ -46,14 +46,10 @@ const defaults = {
 };
 const prefs = new SimplePrefs({namespace: 'myApp-', defaults});
 
-(async () => {
-
 const currentBooleanPrefValue = await prefs.getPref('someBoolean'); // `true`
 
 // Later
 await prefs.setPref('someBoolean', false); // `false` (resolves to old setting)
-
-})();
 ```
 
 For a slightly easier approach, you can use the `bind` method:
@@ -63,14 +59,10 @@ const {
   getPref, setPref
 } = new SimplePrefs({namespace: 'myApp-', defaults}).bind();
 
-(async () => {
-
 const currentBooleanPrefValue = await getPref('someBoolean'); // `true`
 
 // Later
 await setPref('someBoolean', false); // `false` (resolves to old setting)
-
-})();
 ```
 
 ### Listening

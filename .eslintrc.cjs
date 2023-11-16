@@ -3,7 +3,7 @@
 module.exports = {
   extends: ['ash-nazg/sauron-node-overrides'],
   parserOptions: {
-    ecmaVersion: 2018
+    ecmaVersion: 2022
   },
   env: {
     browser: true,
@@ -27,11 +27,11 @@ module.exports = {
       'import/unambiguous': 'off',
       'import/no-unresolved': 'off',
       'import/no-extraneous-dependencies': 'off',
-      'node/no-missing-import': 'off',
-      'node/no-extraneous-import': ['error', {
+      'n/no-missing-import': 'off',
+      'n/no-extraneous-import': ['error', {
         allowModules: ['regenerator-runtime']
       }],
-      'node/no-unsupported-features/es-syntax': 'off'
+      'n/no-unsupported-features/es-syntax': 'off'
     }
   }],
   globals: {
