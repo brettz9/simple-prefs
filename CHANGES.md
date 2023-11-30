@@ -1,5 +1,11 @@
 # simple-prefs CHANGES
 
+## 0.10.0
+
+BREAKING: Requires Node 18+
+
+- feat: TypeScript
+
 ## 0.9.0
 
 ### User-impacting

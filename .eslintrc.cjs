@@ -28,9 +28,7 @@ module.exports = {
       'import/no-unresolved': 'off',
       'import/no-extraneous-dependencies': 'off',
       'n/no-missing-import': 'off',
-      'n/no-extraneous-import': ['error', {
-        allowModules: ['regenerator-runtime']
-      }],
+      'n/no-extraneous-import': ['error'],
       'n/no-unsupported-features/es-syntax': 'off'
     }
   }],

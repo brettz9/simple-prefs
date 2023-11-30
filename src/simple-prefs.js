@@ -1,14 +1,9 @@
 /**
- * @module SimplePrefs
- */
-
-/**
-* @typedef {PlainObject<{
-* string: module:SimplePrefs.Value}>} module:SimplePrefs.Defaults
+* @typedef {{[key: string]: Value}} Defaults
 */
 
 /**
-* @typedef {boolean|number|string} module:SimplePrefs.Value
+* @typedef {boolean|number|string} Value
 */
 
 /**
@@ -16,49 +11,59 @@
  */
 export class SimplePrefs {
   /**
-   * @param {PlainObject} cfg
-   * @param {string} cfg.namespace Avoid clashes with other apps
-   * @param {module:SimplePrefs.Defaults} cfg.defaults
-   * @param {module:SimplePrefs.SimplePrefsDefaults} cfg.prefDefaults
-   * @returns {void}
+   * @param {object} cfg
+   * @param {string} [cfg.namespace] Avoid clashes with other apps
+   * @param {Defaults} [cfg.defaults]
+   * @param {SimplePrefsDefaults} [cfg.prefDefaults]
    */
   constructor (cfg) {
     this.configurePrefs(cfg);
+
+    /** @type {((e: StorageEvent) => void)[]} */
     this.listeners = [];
   }
   /**
-   * @param {PlainObject} cfg
-   * @param {string} cfg.namespace Avoid clashes with other apps
-   * @param {module:SimplePrefs.Defaults} cfg.defaults
-   * @param {module:SimplePrefs.SimplePrefsDefaults} cfg.prefDefaults
+   * @param {object} cfg
+   * @param {string} [cfg.namespace] Avoid clashes with other apps
+   * @param {Defaults} [cfg.defaults]
+   * @param {SimplePrefsDefaults} [cfg.prefDefaults]
    * @returns {void}
    */
   configurePrefs ({
     namespace, defaults, prefDefaults = simplePrefsDefaults(defaults)
   }) {
-    Object.assign(this, {namespace, prefDefaults});
+    this.namespace = namespace ?? '';
+    this.prefDefaults = prefDefaults;
   }
   /**
    * Get parsed preference value; returns `Promise` in anticipation
    * of https://domenic.github.io/async-local-storage/ .
+   * @callback GetPref
    * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-   * @returns {Promise<module:SimplePrefs.Value>} Resolves to the parsed
+   * @returns {Promise<Value>} Resolves to the parsed
    *   value (defaulting if necessary)
    */
+
+  /** @type {GetPref} */
   async getPref (key) {
     const result = localStorage.getItem(this.namespace + key);
     return result === null
-      ? await this.prefDefaults.getPrefDefault(key)
+      ? await /** @type {SimplePrefsDefaults} */ (
+        this.prefDefaults
+      ).getPrefDefault(key)
       : JSON.parse(result);
   }
   /**
    * Set a stringifiable preference value; returns `Promise` in anticipation
    *   of https://domenic.github.io/async-local-storage/ .
+   * @callback SetPref
    * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-   * @param {module:SimplePrefs.Value} val Stringifiable value
+   * @param {Value} val Stringifiable value
    * @returns {Promise<void>} Resolves after setting the item (Not currently
    *    in use)
    */
+
+  /** @type {SetPref} */
   async setPref (key, val) {
     return await localStorage.setItem(
       this.namespace + key, JSON.stringify(val)
@@ -66,9 +71,9 @@ export class SimplePrefs {
   }
 
   /**
-  * @typedef {PlainObject} GetPrefSetPref
-  * @property {module:SimplePrefs.SimplePrefs#getPref} getPref
-  * @property {module:SimplePrefs.SimplePrefs#setPref} setPref
+  * @typedef {object} GetPrefSetPref
+  * @property {GetPref} getPref
+  * @property {SetPref} setPref
   */
 
   /**
@@ -85,14 +90,15 @@ export class SimplePrefs {
 
   /**
   * @callback PreferenceCallback
+  * @param {StorageEvent} e
   * @returns {void}
   */
 
   /* eslint-disable promise/prefer-await-to-callbacks -- Repeating event */
   /**
-  * @param {string} [key]
+  * @param {string|PreferenceCallback|undefined} key
   * @param {PreferenceCallback} cb
-  * @returns {void}
+  * @returns {PreferenceCallback}
   */
   listen (key, cb) {
     if (typeof key === 'function') {
@@ -100,16 +106,21 @@ export class SimplePrefs {
       key = undefined;
     }
 
+    /**
+     * @param {StorageEvent} e
+     */
     const listener = (e) => {
       if (e.key === null) { // `null` for clear browser action or user `clear()`
         if (key === undefined) { // Only trigger when no key supplied
           return;
         }
       } else {
-        if (!e.key.startsWith(this.namespace)) {
+        if (!e.key.startsWith(/** @type {string} */ (this.namespace))) {
           return;
         }
-        if (key !== undefined && !e.key.startsWith(this.namespace + key)) {
+        if (key !== undefined && !e.key.startsWith(
+          /** @type {string} */ (this.namespace) + key
+        )) {
           return;
         }
       }
@@ -151,7 +162,7 @@ export class SimplePrefs {
 export class SimplePrefsDefaults {
   /**
    *
-   * @param {module:SimplePrefs.Defaults} defaults
+   * @param {{defaults: Defaults}} defaults
    */
   constructor ({defaults}) {
     this.defaults = defaults;
@@ -159,20 +170,20 @@ export class SimplePrefsDefaults {
   /**
    * Get parsed default value for a preference.
    * @param {string} key Preference key
-   * @returns {Promise<module:SimplePrefs.Value>}
+   * @returns {Promise<Value>}
    */
   async getPrefDefault (key) {
-    return await this.defaults[key];
+    return await this.defaults[key] ?? null;
   }
 
   /**
    * Set parsed default value for a preference.
    * @param {string} key Preference key
-   * @param {module:SimplePrefs.Value} value
-   * @returns {Promise<module:SimplePrefs.Value>} The old value
+   * @param {Value} value
+   * @returns {Promise<Value>} The old value
    */
   async setPrefDefault (key, value) {
-    const oldValue = this.defaults[key];
+    const oldValue = this.defaults[key] ?? null;
     this.defaults[key] = value;
     return await oldValue;
   }
@@ -180,9 +191,9 @@ export class SimplePrefsDefaults {
 
 /**
  * Simplified factory for `SimplePrefsDefaults`
- * @param {module:SimplePrefs.Defaults} defaults
- * @returns {module:SimplePrefs.SimplePrefsDefaults}
+ * @param {Defaults} [defaults]
+ * @returns {SimplePrefsDefaults}
  */
-export function simplePrefsDefaults (defaults) {
+export function simplePrefsDefaults (defaults = {}) {
   return new SimplePrefsDefaults({defaults});
 }
