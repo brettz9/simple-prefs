@@ -42,16 +42,11 @@
   }
 
   /**
-   * @module SimplePrefs
-   */
-
-  /**
-  * @typedef {PlainObject<{
-  * string: module:SimplePrefs.Value}>} module:SimplePrefs.Defaults
+  * @typedef {{[key: string]: Value}} Defaults
   */
 
   /**
-  * @typedef {boolean|number|string} module:SimplePrefs.Value
+  * @typedef {boolean|number|string} Value
   */
 
   /**
@@ -73,22 +68,23 @@
    */
   var SimplePrefs = /*#__PURE__*/function () {
     /**
-     * @param {PlainObject} cfg
-     * @param {string} cfg.namespace Avoid clashes with other apps
-     * @param {module:SimplePrefs.Defaults} cfg.defaults
-     * @param {module:SimplePrefs.SimplePrefsDefaults} cfg.prefDefaults
-     * @returns {void}
+     * @param {object} cfg
+     * @param {string} [cfg.namespace] Avoid clashes with other apps
+     * @param {Defaults} [cfg.defaults]
+     * @param {SimplePrefsDefaults} [cfg.prefDefaults]
      */
     function SimplePrefs(cfg) {
       _classCallCheck(this, SimplePrefs);
       this.configurePrefs(cfg);
+
+      /** @type {((e: StorageEvent) => void)[]} */
       this.listeners = [];
     }
     /**
-     * @param {PlainObject} cfg
-     * @param {string} cfg.namespace Avoid clashes with other apps
-     * @param {module:SimplePrefs.Defaults} cfg.defaults
-     * @param {module:SimplePrefs.SimplePrefsDefaults} cfg.prefDefaults
+     * @param {object} cfg
+     * @param {string} [cfg.namespace] Avoid clashes with other apps
+     * @param {Defaults} [cfg.defaults]
+     * @param {SimplePrefsDefaults} [cfg.prefDefaults]
      * @returns {void}
      */
     _createClass(SimplePrefs, [{
@@ -98,25 +94,26 @@
           defaults = _ref.defaults,
           _ref$prefDefaults = _ref.prefDefaults,
           prefDefaults = _ref$prefDefaults === void 0 ? simplePrefsDefaults(defaults) : _ref$prefDefaults;
-        Object.assign(this, {
-          namespace: namespace,
-          prefDefaults: prefDefaults
-        });
+        this.namespace = namespace !== null && namespace !== void 0 ? namespace : '';
+        this.prefDefaults = prefDefaults;
       }
       /**
        * Get parsed preference value; returns `Promise` in anticipation
        * of https://domenic.github.io/async-local-storage/ .
+       * @callback GetPref
        * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-       * @returns {Promise<module:SimplePrefs.Value>} Resolves to the parsed
+       * @returns {Promise<Value>} Resolves to the parsed
        *   value (defaulting if necessary)
        */
+
+      /** @type {GetPref} */
     }, {
       key: "getPref",
       value: function getPref(key) {
         try {
           var _this = this;
           var result = localStorage.getItem(_this.namespace + key);
-          return _await(_await(result === null ? _this.prefDefaults.getPrefDefault(key) : JSON.parse(result), void 0, !(result === null)));
+          return _await(_await(result === null ? /** @type {SimplePrefsDefaults} */_this.prefDefaults.getPrefDefault(key) : JSON.parse(result), void 0, !(result === null)));
         } catch (e) {
           return Promise.reject(e);
         }
@@ -124,11 +121,13 @@
       /**
        * Set a stringifiable preference value; returns `Promise` in anticipation
        *   of https://domenic.github.io/async-local-storage/ .
+       * @callback SetPref
        * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-       * @param {module:SimplePrefs.Value} val Stringifiable value
+       * @param {Value} val Stringifiable value
        * @returns {Promise<void>} Resolves after setting the item (Not currently
        *    in use)
        */
+      /** @type {SetPref} */
     }, {
       key: "setPref",
       value: function setPref(key, val) {
@@ -140,9 +139,9 @@
         }
       }
       /**
-      * @typedef {PlainObject} GetPrefSetPref
-      * @property {module:SimplePrefs.SimplePrefs#getPref} getPref
-      * @property {module:SimplePrefs.SimplePrefs#setPref} setPref
+      * @typedef {object} GetPrefSetPref
+      * @property {GetPref} getPref
+      * @property {SetPref} setPref
       */
       /**
        * Convenience utility to return two main methods `getPref` and
@@ -160,14 +159,15 @@
 
       /**
       * @callback PreferenceCallback
+      * @param {StorageEvent} e
       * @returns {void}
       */
 
       /* eslint-disable promise/prefer-await-to-callbacks -- Repeating event */
       /**
-      * @param {string} [key]
+      * @param {string|PreferenceCallback|undefined} key
       * @param {PreferenceCallback} cb
-      * @returns {void}
+      * @returns {PreferenceCallback}
       */
     }, {
       key: "listen",
@@ -177,6 +177,10 @@
           cb = key;
           key = undefined;
         }
+
+        /**
+         * @param {StorageEvent} e
+         */
         var listener = function listener(e) {
           if (e.key === null) {
             // `null` for clear browser action or user `clear()`
@@ -185,10 +189,10 @@
               return;
             }
           } else {
-            if (!e.key.startsWith(_this3.namespace)) {
+            if (!e.key.startsWith( /** @type {string} */_this3.namespace)) {
               return;
             }
-            if (key !== undefined && !e.key.startsWith(_this3.namespace + key)) {
+            if (key !== undefined && !e.key.startsWith( /** @type {string} */_this3.namespace + key)) {
               return;
             }
           }
@@ -226,7 +230,7 @@
   var SimplePrefsDefaults = /*#__PURE__*/function () {
     /**
      *
-     * @param {module:SimplePrefs.Defaults} defaults
+     * @param {{defaults: Defaults}} defaults
      */
     function SimplePrefsDefaults(_ref2) {
       var defaults = _ref2.defaults;
@@ -236,14 +240,16 @@
     /**
      * Get parsed default value for a preference.
      * @param {string} key Preference key
-     * @returns {Promise<module:SimplePrefs.Value>}
+     * @returns {Promise<Value>}
      */
     _createClass(SimplePrefsDefaults, [{
       key: "getPrefDefault",
       value: function getPrefDefault(key) {
         try {
           var _this4 = this;
-          return _await(_this4.defaults[key]);
+          return _await(_this4.defaults[key], function (_this4$defaults$key) {
+            return _this4$defaults$key !== null && _this4$defaults$key !== void 0 ? _this4$defaults$key : null;
+          });
         } catch (e) {
           return Promise.reject(e);
         }
@@ -251,15 +257,16 @@
       /**
        * Set parsed default value for a preference.
        * @param {string} key Preference key
-       * @param {module:SimplePrefs.Value} value
-       * @returns {Promise<module:SimplePrefs.Value>} The old value
+       * @param {Value} value
+       * @returns {Promise<Value>} The old value
        */
     }, {
       key: "setPrefDefault",
       value: function setPrefDefault(key, value) {
         try {
+          var _this5$defaults$key;
           var _this5 = this;
-          var oldValue = _this5.defaults[key];
+          var oldValue = (_this5$defaults$key = _this5.defaults[key]) !== null && _this5$defaults$key !== void 0 ? _this5$defaults$key : null;
           _this5.defaults[key] = value;
           return _await(oldValue);
         } catch (e) {
@@ -272,10 +279,11 @@
 
   /**
    * Simplified factory for `SimplePrefsDefaults`
-   * @param {module:SimplePrefs.Defaults} defaults
-   * @returns {module:SimplePrefs.SimplePrefsDefaults}
+   * @param {Defaults} [defaults]
+   * @returns {SimplePrefsDefaults}
    */
-  function simplePrefsDefaults(defaults) {
+  function simplePrefsDefaults() {
+    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return new SimplePrefsDefaults({
       defaults: defaults
     });
