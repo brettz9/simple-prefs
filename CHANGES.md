@@ -1,5 +1,9 @@
 # simple-prefs CHANGES
 
+## 0.10.1
+
+- fix: for `node_modules` import paths in TS, provide re-export
+
 ## 0.10.0
 
 BREAKING: Requires Node 18+

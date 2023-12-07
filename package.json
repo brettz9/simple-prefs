@@ -1,6 +1,6 @@
 {
   "name": "simple-prefs",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Simple local storage preferences mechanism for web apps",
   "main": "dist/index.umd.cjs",
   "type": "module",
@@ -11,10 +11,11 @@
   },
   "scripts": {
     "tsc": "tsc",
+    "copy": "cp index.esm.d.ts dist/index.esm.d.ts",
     "prepublishOnly": "pnpm i && pnpm rollup",
     "eslint": "eslint --ext=js,md,html .",
     "lint": "npm run eslint",
-    "rollup": "rollup -c",
+    "rollup": "rollup -c && npm run copy",
     "test": "npm run eslint && npm run rollup && echo \"Error: no test specified\" && exit 1"
   },
   "browserslist": [
