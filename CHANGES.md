@@ -1,5 +1,12 @@
 # simple-prefs CHANGES
 
+## 0.11.0
+
+- BREAKING CHANGE: Targets defaults, no op_mini all
+
+- feat: change browserslist target
+- chore: uses flat config/ESLint 9; updates devDeps.
+
 ## 0.10.1
 
 - fix: for `node_modules` import paths in TS, provide re-export
