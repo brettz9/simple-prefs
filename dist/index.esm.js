@@ -52,12 +52,11 @@ class SimplePrefs {
    * @param {SimplePrefsDefaults} [cfg.prefDefaults]
    * @returns {void}
    */
-  configurePrefs(_ref) {
-    let {
-      namespace,
-      defaults,
-      prefDefaults = simplePrefsDefaults(defaults)
-    } = _ref;
+  configurePrefs({
+    namespace,
+    defaults,
+    prefDefaults = simplePrefsDefaults(defaults)
+  }) {
     this.namespace = namespace ?? '';
     this.prefDefaults = prefDefaults;
   }
@@ -140,16 +139,16 @@ class SimplePrefs {
           return;
         }
       } else {
-        if (!e.key.startsWith( /** @type {string} */this.namespace)) {
+        if (!e.key.startsWith(/** @type {string} */this.namespace)) {
           return;
         }
-        if (key !== undefined && !e.key.startsWith( /** @type {string} */this.namespace + key)) {
+        if (key !== undefined && !e.key.startsWith(/** @type {string} */this.namespace + key)) {
           return;
         }
       }
       cb(e);
     };
-    window.addEventListener('storage', listener);
+    globalThis.addEventListener('storage', listener);
     this.listeners.push(listener);
     return listener;
   }
@@ -163,13 +162,13 @@ class SimplePrefs {
       for (let i = 0; i < this.listeners.length; i++) {
         if (listener === this.listeners[i]) {
           this.listeners.splice(i, 1);
-          window.removeEventListener('storage', listener);
+          globalThis.removeEventListener('storage', listener);
           return;
         }
       }
     }
     this.listeners.forEach(listenerItem => {
-      window.removeEventListener('storage', listenerItem);
+      globalThis.removeEventListener('storage', listenerItem);
     });
   }
   /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */
@@ -179,10 +178,9 @@ class SimplePrefsDefaults {
    *
    * @param {{defaults: Defaults}} defaults
    */
-  constructor(_ref2) {
-    let {
-      defaults
-    } = _ref2;
+  constructor({
+    defaults
+  }) {
     this.defaults = defaults;
   }
   /**
@@ -219,8 +217,7 @@ class SimplePrefsDefaults {
  * @param {Defaults} [defaults]
  * @returns {SimplePrefsDefaults}
  */
-function simplePrefsDefaults() {
-  let defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function simplePrefsDefaults(defaults = {}) {
   return new SimplePrefsDefaults({
     defaults
   });

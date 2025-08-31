@@ -128,7 +128,7 @@ export class SimplePrefs {
       cb(e);
     };
 
-    window.addEventListener('storage', listener);
+    globalThis.addEventListener('storage', listener);
 
     this.listeners.push(listener);
 
@@ -144,13 +144,13 @@ export class SimplePrefs {
       for (let i = 0; i < this.listeners.length; i++) {
         if (listener === this.listeners[i]) {
           this.listeners.splice(i, 1);
-          window.removeEventListener('storage', listener);
+          globalThis.removeEventListener('storage', listener);
           return;
         }
       }
     }
     this.listeners.forEach((listenerItem) => {
-      window.removeEventListener('storage', listenerItem);
+      globalThis.removeEventListener('storage', listenerItem);
     });
   }
   /* eslint-enable promise/prefer-await-to-callbacks -- Repeating event */

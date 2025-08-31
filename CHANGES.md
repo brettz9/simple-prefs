@@ -1,5 +1,9 @@
 # simple-prefs CHANGES
 
+## ?
+
+- chore: update devDeps.
+
 ## 0.11.0
 
 - BREAKING CHANGE: Targets defaults, no op_mini all

@@ -3,7 +3,7 @@
  * @param {Defaults} [defaults]
  * @returns {SimplePrefsDefaults}
  */
-export function simplePrefsDefaults(defaults?: Defaults | undefined): SimplePrefsDefaults;
+export function simplePrefsDefaults(defaults?: Defaults): SimplePrefsDefaults;
 /**
 * @typedef {{[key: string]: Value}} Defaults
 */
