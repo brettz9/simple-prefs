@@ -5,11 +5,19 @@
  */
 export function simplePrefsDefaults(defaults?: Defaults): SimplePrefsDefaults;
 /**
-* @typedef {{[key: string]: Value}} Defaults
-*/
+ * @typedef {{[key: string]: JSONValue}} Defaults
+ */
 /**
-* @typedef {boolean|number|string} Value
-*/
+ * @typedef {null|boolean|number|string} JSONPrimitive
+ */
+/**
+ * @typedef {JSONValue[]} JSONArray
+ */
+/**
+ * @typedef {JSONPrimitive | JSONArray | {
+ *   [key in string]: JSONValue
+ * }} JSONValue
+ */
 /**
  * Preferences storage.
  */
@@ -41,8 +49,8 @@ export class SimplePrefs {
     }): void;
     namespace: string | undefined;
     prefDefaults: SimplePrefsDefaults | undefined;
-    getPref(key: string): Promise<Value>;
-    setPref(key: string, val: Value): Promise<void>;
+    getPref(key: string): Promise<JSONValue>;
+    setPref(key: string, val: JSONValue): Promise<void>;
     /**
     * @typedef {object} GetPrefSetPref
     * @property {GetPref} getPref
@@ -54,8 +62,8 @@ export class SimplePrefs {
      * @returns {GetPrefSetPref}
      */
     bind(): {
-        getPref: (key: string) => Promise<Value>;
-        setPref: (key: string, val: Value) => Promise<void>;
+        getPref: (key: string) => Promise<JSONValue>;
+        setPref: (key: string, val: JSONValue) => Promise<void>;
     };
     /**
     * @callback PreferenceCallback
@@ -89,19 +97,21 @@ export class SimplePrefsDefaults {
     /**
      * Get parsed default value for a preference.
      * @param {string} key Preference key
-     * @returns {Promise<Value>}
+     * @returns {Promise<JSONValue>}
      */
-    getPrefDefault(key: string): Promise<Value>;
+    getPrefDefault(key: string): Promise<JSONValue>;
     /**
      * Set parsed default value for a preference.
      * @param {string} key Preference key
-     * @param {Value} value
-     * @returns {Promise<Value>} The old value
+     * @param {JSONValue} value
+     * @returns {Promise<JSONValue>} The old value
      */
-    setPrefDefault(key: string, value: Value): Promise<Value>;
+    setPrefDefault(key: string, value: JSONValue): Promise<JSONValue>;
 }
 export type Defaults = {
-    [key: string]: Value;
+    [key: string]: JSONValue;
 };
-export type Value = boolean | number | string;
+export type JSONPrimitive = null | boolean | number | string;
+export type JSONArray = JSONValue[];
+export type JSONValue = JSONPrimitive | JSONArray | { [key in string]: JSONValue; };
 //# sourceMappingURL=simple-prefs.d.ts.map

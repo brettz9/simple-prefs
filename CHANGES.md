@@ -1,5 +1,9 @@
 # simple-prefs CHANGES
 
+## 0.12.1
+
+- fix(typescript): update build file
+
 ## 0.12.0
 
 - feat(typescript): expand allowable values
