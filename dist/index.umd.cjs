@@ -5,12 +5,20 @@
 })(this, (function (exports) { 'use strict';
 
   /**
-  * @typedef {{[key: string]: Value}} Defaults
-  */
+   * @typedef {{[key: string]: JSONValue}} Defaults
+   */
 
   /**
-  * @typedef {boolean|number|string} Value
-  */
+   * @typedef {null|boolean|number|string} JSONPrimitive
+   */
+  /**
+   * @typedef {JSONValue[]} JSONArray
+   */
+  /**
+   * @typedef {JSONPrimitive | JSONArray | {
+   *   [key in string]: JSONValue
+   * }} JSONValue
+   */
 
   /**
    * Preferences storage.
@@ -71,7 +79,7 @@
      * of https://domenic.github.io/async-local-storage/ .
      * @callback GetPref
      * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-     * @returns {Promise<Value>} Resolves to the parsed
+     * @returns {Promise<JSONValue>} Resolves to the parsed
      *   value (defaulting if necessary)
      */
 
@@ -88,7 +96,7 @@
      *   of https://domenic.github.io/async-local-storage/ .
      * @callback SetPref
      * @param {string} key Preference key (for Chrome-Compatibility, only `\w+`)
-     * @param {Value} val Stringifiable value
+     * @param {JSONValue} val Stringifiable value
      * @returns {Promise<void>} Resolves after setting the item (Not currently
      *    in use)
      */
@@ -192,7 +200,7 @@
     /**
      * Get parsed default value for a preference.
      * @param {string} key Preference key
-     * @returns {Promise<Value>}
+     * @returns {Promise<JSONValue>}
      */
     getPrefDefault(key) {
       const _this3 = this;
@@ -205,8 +213,8 @@
     /**
      * Set parsed default value for a preference.
      * @param {string} key Preference key
-     * @param {Value} value
-     * @returns {Promise<Value>} The old value
+     * @param {JSONValue} value
+     * @returns {Promise<JSONValue>} The old value
      */
     setPrefDefault(key, value) {
       const _this4 = this;

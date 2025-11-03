@@ -1,7 +1,8 @@
 # simple-prefs CHANGES
 
-## ?
+## 0.12.0
 
+- feat(typescript): expand allowable values
 - chore: update devDeps.
 
 ## 0.11.0

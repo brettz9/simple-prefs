@@ -1,6 +1,6 @@
 {
   "name": "simple-prefs",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Simple local storage preferences mechanism for web apps",
   "main": "dist/index.umd.cjs",
   "type": "module",
